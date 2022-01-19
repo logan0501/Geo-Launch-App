@@ -14,7 +14,11 @@ class ImageScreen extends StatefulWidget {
 class _ImageScreenState extends State<ImageScreen> {
   XFile? _image;
   ImagePicker picker = ImagePicker();
-
+  String _landmark = "";
+  String _identity = "";
+  dynamic _possibility = 0;
+  bool _loading = false;
+  bool _error = false;
   _imgFromCamera() async {
     XFile? image =
         await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
@@ -30,6 +34,7 @@ class _ImageScreenState extends State<ImageScreen> {
 
     setState(() {
       _image = image;
+      _loading = true;
       getImageResult();
     });
   }
@@ -40,17 +45,27 @@ class _ImageScreenState extends State<ImageScreen> {
 // Configure the recognition settings.
     final setting = MLLandmarkAnalyzerSetting();
     setting.path = _image!.path;
-       setting.patternType = MLLandmarkAnalyzerSetting.STEADY_PATTERN;    
-     setting.largestNumberOfReturns = 5;   
+    setting.patternType = MLLandmarkAnalyzerSetting.STEADY_PATTERN;
+    setting.largestNumberOfReturns = 5;
 // Get recognition result asynchronously.
     try {
       List<MLLandmark> list = await analyzer.asyncAnalyzeFrame(setting);
 
 // After the recognition ends, stop analyzer.
       // bool result = await analyzer.stopLandmarkDetection();
-      print(list.first.landmark);
+      setState(() {
+        _loading = false;
+        _error = false;
+        _landmark = list.first.landmark;
+        _identity = list.first.landmarkId;
+        _possibility = list.first.possibility;
+      });
+      print("data" + list.first.landmark + list.first.possibility.toString());
     } catch (e) {
-      print(e);
+      setState(() {
+        _loading = false;
+        _error = true;
+      });
     }
   }
 
@@ -62,11 +77,11 @@ class _ImageScreenState extends State<ImageScreen> {
     super.initState();
   }
 
-  _setApiKey() async {
-    String API_KEY = Uri.encodeComponent(
-        "DAEDABuQsxc69ORIjtCEgqA6U+c6jKehbKjsmmDoSpI2RM2YHirS/qSmWLJkZi7guhfXoNvpdCB/OM5g95hMmlftG3A69Abg526NVQ==");
-
-    await MLApplication().setApiKey(apiKey: API_KEY);
+  _setApiKey() {
+    MLApplication()
+      ..setApiKey(
+          apiKey:
+              "DAEDABuQsxc69ORIjtCEgqA6U+c6jKehbKjsmmDoSpI2RM2YHirS/qSmWLJkZi7guhfXoNvpdCB/OM5g95hMmlftG3A69Abg526NVQ==");
   }
 
   _checkPermissions() async {
@@ -123,6 +138,40 @@ class _ImageScreenState extends State<ImageScreen> {
               child: ElevatedButton(
                   onPressed: _imgFromCamera, child: Text("Open Camera")),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Divider(
+                thickness: 1,
+              ),
+            ),
+            _loading == false
+                ? (_error == false
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Details About the Place",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("Landmark : ${_landmark}"),
+                              Text("Landmark Id : ${_identity}"),
+                              Text("Landmark Possibility : ${_possibility}"),
+                            ]),
+                      )
+                    : Center(
+                        child: Text(
+                         
+                        "Picture cannot be Recognized",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red,fontSize: 20),
+                      )))
+                : Center(child: CircularProgressIndicator()),
           ],
         ),
       ),
