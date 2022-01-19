@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:huawei_ml/huawei_ml.dart';
 
@@ -19,6 +20,7 @@ class _ImageScreenState extends State<ImageScreen> {
   dynamic _possibility = 0;
   bool _loading = false;
   bool _error = false;
+
   _imgFromCamera() async {
     XFile? image =
         await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
@@ -98,6 +100,7 @@ class _ImageScreenState extends State<ImageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Image Based Place Search"),
+        backgroundColor: Color(0xff161616),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -105,7 +108,7 @@ class _ImageScreenState extends State<ImageScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              clipBehavior: Clip.hardEdge,
+              clipBehavior: Clip.antiAlias,
               height: 300,
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
@@ -117,18 +120,25 @@ class _ImageScreenState extends State<ImageScreen> {
                       Icons.photo_camera,
                       size: 80,
                     )
-                  : Image.file(
-                      File(_image!.path),
-                      height: 270,
-                      width: 270,
-                      fit: BoxFit.cover,
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        File(_image!.path),
+                        height: 270,
+                        width: 270,
+                        fit: BoxFit.cover,
+                      ),
                     ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Color(0xff161616)),
                   onPressed: _imgFromGallery,
-                  child: Text("Pick Image from Gallery")),
+                  child: Text(
+                    "Pick Image from Gallery",
+                    style: TextStyle(color: Color(0xffFBAA27)),
+                  )),
             ),
             SizedBox(
               height: 20,
@@ -136,7 +146,12 @@ class _ImageScreenState extends State<ImageScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  onPressed: _imgFromCamera, child: Text("Open Camera")),
+                  style: ElevatedButton.styleFrom(primary: Color(0xff161616)),
+                  onPressed: _imgFromCamera,
+                  child: Text(
+                    "Open Camera",
+                    style: TextStyle(color: Color(0xffFBAA27)),
+                  )),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -166,10 +181,11 @@ class _ImageScreenState extends State<ImageScreen> {
                       )
                     : Center(
                         child: Text(
-                         
                         "Picture cannot be Recognized",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.red,fontSize: 20),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontSize: 20),
                       )))
                 : Center(child: CircularProgressIndicator()),
           ],

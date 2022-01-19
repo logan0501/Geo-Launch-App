@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:huawei_site/huawei_site.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class KeywordScreen extends StatefulWidget {
   const KeywordScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
   String str = "";
   late SearchService searchService;
   late TextSearchResponse response;
-
+  TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -58,7 +59,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text("Keyword Search"),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff161616),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -78,6 +79,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
                           str = val;
                         });
                       },
+                      controller: _controller,
                       decoration: InputDecoration(
                         hintText: "Enter Keyword..",
                         contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -87,7 +89,12 @@ class _KeywordScreenState extends State<KeywordScreen> {
                     ),
                   ),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _controller.clear();
+                        setState(() {
+                          str = "";
+                        });
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 10.0),
                         child: Icon(
@@ -111,12 +118,38 @@ class _KeywordScreenState extends State<KeywordScreen> {
                     if (snapshot.hasError)
                       return Text('Start Typing to fetch details');
                     if (snapshot.hasData) {
-
                       return Column(
                         children: [
                           ...snapshot.data.map((element) {
-                            return Card(
-                                child: ListTile(title: Text(element.name,style: TextStyle(fontWeight: FontWeight.bold),),subtitle: Text(element.formatAddress),));
+                            return GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          title: Text(element.name),
+                                          content: Text(
+                                              "FormatAddress : ${element.formatAddress}\nCountry : ${element.address.country}\nAdminArea : ${element.address.adminArea}\nSubAdminArea : ${element.address.subAdminArea}\nLocality : ${element.address.locality}\nPostalCode : ${element.address.postalCode}\nLocation : ${element.location} "),
+                                          actions: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(primary: Color(0xff161616)),
+                                                onPressed: () {
+                                                  MapsLauncher.launchCoordinates(element.location.lat,element.location.lng);
+                                                },
+                                                child:
+                                                    Text("View on Google Maps",style: TextStyle(color: Color(0xffFBAA27)),))
+                                          ],
+                                        ));
+                              },
+                              child: Card(
+                                
+                                  child: ListTile(
+                                title: Text(
+                                  element.name,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(element.formatAddress),
+                              )),
+                            );
                           }).toList(),
                         ],
                       );

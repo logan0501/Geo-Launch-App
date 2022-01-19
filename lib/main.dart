@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Tourist App'),
+      home: const MyHomePage(title: 'GEO LAUNCH'),
     );
   }
 }
@@ -111,91 +111,182 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff161616),
       ),
       resizeToAvoidBottomInset: false,
       body: Column(
+       
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
               padding: EdgeInsets.all(10),
               child: Text(
                 "FEATURES WE OFFER",
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: Color(0xff161616),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0,
                 ),
               )),
-          GestureDetector(
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => KeywordScreen()));
+              },
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: AssetImage('assets/keyword.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    margin: EdgeInsets.all(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              "Keyword Search",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Returns a place list based on keywords entered by\nthe user.",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => NearbyScreen()));
+              },
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                        width: double.infinity,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: AssetImage('assets/nearby.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    margin: EdgeInsets.all(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              "Nearby Place Search",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Searches for nearby places based on the current location of the user's device.",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child:  GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => KeywordScreen()));
+                  MaterialPageRoute(builder: (context) => ImageScreen()));
             },
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.home,
-                    size: 40,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                      width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: AssetImage('assets/img1.jpg'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  title: Text(
-                    "Keyword Search",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    "Returns a place list based on keywords entered by the user.",
+                  margin: EdgeInsets.all(10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            "Image Based Place Search",
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Detect a landmark with the image.",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NearbyScreen()));
-            },
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.home,
-                    size: 40,
-                  ),
-                  title: Text(
-                    "Nearby Place Search",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                      "Searches for nearby places based on the current location of the user's device."),
-                ),
-              ),
-            ),
           ),
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(builder: (context)=>ImageScreen()));
-            },
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.home,
-                    size: 40,
-                  ),
-                  title: Text(
-                    "Image Based Place Search",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text("Detect a landmark with the image."),
-                ),
-              ),
-            ),
-          ),
+         SizedBox(
+           height: 10,
+         ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Text("DEVELOPED WITH ♥ BY LOGAN"),
+        )
         ],
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
