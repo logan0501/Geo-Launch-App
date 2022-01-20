@@ -286,12 +286,18 @@ class _NearbyScreenState extends State<NearbyScreen> {
                                         "FormatAddress : ${sitelist[index].formatAddress}\nCountry : ${sitelist[index].address!.country}\nAdminArea : ${sitelist[index].address!.adminArea}\nSubAdminArea : ${sitelist[index].address!.subAdminArea}\nLocality : ${sitelist[index].address!.locality}\nPostalCode : ${sitelist[index].address!.postalCode}\nLocation : ${sitelist[index].location} "),
                                     actions: [
                                       ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Color(0xff161616)),
                                           onPressed: () {
                                             MapsLauncher.launchCoordinates(
                                                 sitelist[index].location!.lat!,
                                                 sitelist[index].location!.lng!);
                                           },
-                                          child: Text("View on Google Maps"))
+                                          child: Text(
+                                            "View on Google Maps",
+                                            style: TextStyle(
+                                                color: Color(0xffFBAA27)),
+                                          ))
                                     ],
                                   ));
                         },
