@@ -1,16 +1,10 @@
-# tourist_app
+# Geo Launch
 
-A new Flutter project.
+Deployed Link - https://appgallery.huawei.com/app/C105319813
 
-## Getting Started
+## Features of Geo Lauch
+  1. Keyword based location search
+  2. Nearby place search based on variety of features like ATM, POLICE STATION, STORE, FIRE STATION, etc..
+  3. Image based place search
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
